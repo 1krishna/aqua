@@ -95,6 +95,27 @@
 					</ul>
 				</li>
 
+				<li class="nav-parent">
+					<a class="nav-link" href="#">
+						<i class="fa fa-calculator" aria-hidden="true"></i>
+						<span>Payments</span>
+					</a>
+					<ul class="nav nav-children">
+						<li>
+							<a class="nav-link" href="add-payment.php">
+								<i class="fa fa-plus-square" aria-hidden="true"></i>
+								Add Payments
+							</a>
+						</li>
+						<li>
+							<a class="nav-link" href="view-payment.php">
+								<i class="fa fa-pencil-square" aria-hidden="true"></i>
+								Payment Details
+							</a>
+						</li>
+					</ul>
+				</li>
+
 				<li>
 					<a class="nav-link" href="<?php echo $_SERVER['PHP_SELF'] . "?lo"; ?>">
 						<i class="fa fa-power-off" aria-hidden="true"></i>
