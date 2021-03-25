@@ -71,7 +71,7 @@
 
             <section role="main" class="content-body">
                 <header class="page-header">
-                    <h2>Employes</h2>
+                    <h2>Farmers Details</h2>
                 </header>
                 <!-- start: page -->
                 <div class="row">
@@ -80,57 +80,86 @@
                             <div class="row">
                                 <div class="col">
                                     <section class="card">
+                                        <?php
+                                        $farmer = "SELECT * from farmers f, employees e where f.farmerID={$_GET['farmerID']}";
+                                        $farmer = mysqli_query($conn, $farmer);
+                                        $farmerRow = mysqli_fetch_assoc($farmer);
+                                        ?>
                                         <header class="card-header">
-                                            <h2 class="card-title">Employees List</h2>
+                                            <b>Farmer Name:</b> <?php echo $farmerRow['farmerName']; ?><br>
+                                            <b>Farmer Mobile:</b> <?php echo $farmerRow['farmerMobile']; ?><br>
+                                            <b>Employee Name:</b> <?php echo $farmerRow['empName']; ?>
+
                                         </header>
+
                                         <div class="card-body">
                                             <div class="table-responsive">
                                                 <table class="table table-bordered table-striped mb-0" id="datatable-tabletools">
                                                     <thead>
                                                         <tr>
-                                                            <th>Emp ID</th>
-                                                            <th>Emp Name</th>
-                                                            <th>Emp Mobile</th>
-                                                            <th>Emp DOB</th>
-                                                            <th>Emp Aadhar</th>
-                                                            <th>Emp Pan</th>
-                                                            <th>Emp Education</th>
-                                                            <th>Emp Parmenent Address</th>
-                                                            <th>Emp Current Address</th>
-                                                            <th>Emp Work Zone</th>
-                                                            <th>Edit/Delete</th>
+                                                            <th>Date</th>
+                                                            <th>Sale/Payment</th>
+                                                            <th>Payment Discription</th>
+                                                            <th>Product</th>
+                                                            <th>Quantity</th>
+                                                            <th>Total Amount</th>
+                                                            <th>Discount</th>
+                                                            <th>Final Price/Amount Paid</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <?php
-                                                        $emp = "SELECT * from employees where empStatus=1";
-                                                        $emp = mysqli_query($conn, $emp);
-                                                        while ($emp_row = mysqli_fetch_assoc($emp)) {
+                                                        $sale=0;
+                                                        $payment=0;
+                                                        $farmerSales = "SELECT * from sales s, products p where s.productID=p.productID and farmerID={$_GET['farmerID']}";
+                                                        $farmerSales = mysqli_query($conn, $farmerSales);
+                                                        while ($row = mysqli_fetch_assoc($farmerSales)) {
+                                                            $sale = $sale+$row['finalPrice'];
                                                         ?>
                                                             <tr>
-                                                                <td><?php echo $emp_row['empID']; ?></td>
-                                                                <td><a href="details-employee.php?empID=<?php echo $emp_row['empID']; ?>"><?php echo $emp_row['empName']; ?></td>
-                                                                <td><?php echo $emp_row['empMobile']; ?></td>
-                                                                <td><?php echo $emp_row['empDOB']; ?></td>
-                                                                <td><?php echo $emp_row['empAadhar']; ?></td>
-                                                                <td><?php echo $emp_row['empPan']; ?></td>
-                                                                <td><?php echo $emp_row['empEducation']; ?></td>
-                                                                <td><?php echo $emp_row['empPAddress']; ?></td>
-                                                                <td><?php echo $emp_row['empCAddress']; ?></td>
-                                                                <td><?php echo $emp_row['empWorkZone']; ?></td>
-                                                                <td>
-                                                                    <form action="add-employees.php" method="post">
-                                                                        <input type="hidden" name="empID" value="<?php echo $emp_row['empID']; ?>">
-                                                                        <button type="submit" class="btn">
-                                                                            <i class="fa fa-pencil-square" aria-hidden="true"></i>
-                                                                        </button>
-                                                                    </form>
-                                                                    <button onclick="empDel(<?php echo $emp_row['empID']; ?>);" class="btn">
-                                                                        <i class="fas fa-trash" aria-hidden="true"></i>
-                                                                    </button>
-                                                                </td>
+                                                                <td><?php echo $row['saleDate']; ?></td>
+                                                                <td>Sale</td>
+                                                                <td>---</td>
+                                                                <td><?php echo $row['productName']; ?></td>
+                                                                <td><?php echo $row['quantity']; ?></td>
+                                                                <td><?php echo $row['totalAmt']; ?></td>
+                                                                <td><?php echo $row['discount']; ?></td>
+                                                                <td><?php echo $row['finalPrice']; ?></td>
                                                             </tr>
-                                                        <?php } ?>
+                                                        <?php
+                                                        }
+                                                        ?>
+
+                                                        <?php
+                                                        $farmerPayment = "SELECT * from payments where farmerID={$_GET['farmerID']}";
+                                                        $farmerPayment = mysqli_query($conn, $farmerPayment);
+                                                        while ($row = mysqli_fetch_assoc($farmerPayment)) {
+                                                            $payment = $payment+$row['paymentAmt']
+                                                        ?>
+                                                            <tr>
+                                                                <td><?php echo $row['paymentDate']; ?></td>
+                                                                <td>Payment</td>
+                                                                <td><?php echo $row['paymentDetails']; ?></td>
+                                                                <td>---</td>
+                                                                <td>---</td>
+                                                                <td>---</td>
+                                                                <td>---</td>
+                                                                <td><?php echo $row['paymentAmt']; ?></td>
+                                                            </tr>
+                                                        <?php
+                                                        }
+                                                        ?>
+                                                        <tr>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>Total Due</td>
+                                                            <td><?php echo ($sale+$farmerRow['farmerOldDue'])-$payment; ?></td>
+                                                        </tr>
+
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -164,25 +193,8 @@
     <script src="vendor/bootstrap-multiselect/bootstrap-multiselect.js"></script>
     <script src="vendor/jquery.easy-pie-chart/jquery.easy-pie-chart.js"></script>
     <script src="vendor/flot/jquery.flot.js"></script>
-    <script src="vendor/flot.tooltip/flot.tooltip.js"></script>
-    <script src="vendor/flot/jquery.flot.pie.js"></script>
-    <script src="vendor/flot/jquery.flot.categories.js"></script>
-    <script src="vendor/flot/jquery.flot.resize.js"></script>
     <script src="vendor/jquery-sparkline/jquery-sparkline.js"></script>
     <script src="vendor/raphael/raphael.js"></script>
-    <script src="vendor/morris/morris.js"></script>
-    <script src="vendor/gauge/gauge.js"></script>
-    <script src="vendor/snap.svg/snap.svg.js"></script>
-    <script src="vendor/liquid-meter/liquid.meter.js"></script>
-    <script src="vendor/jqvmap/jquery.vmap.js"></script>
-    <script src="vendor/jqvmap/data/jquery.vmap.sampledata.js"></script>
-    <script src="vendor/jqvmap/maps/jquery.vmap.world.js"></script>
-    <script src="vendor/jqvmap/maps/continents/jquery.vmap.africa.js"></script>
-    <script src="vendor/jqvmap/maps/continents/jquery.vmap.asia.js"></script>
-    <script src="vendor/jqvmap/maps/continents/jquery.vmap.australia.js"></script>
-    <script src="vendor/jqvmap/maps/continents/jquery.vmap.europe.js"></script>
-    <script src="vendor/jqvmap/maps/continents/jquery.vmap.north-america.js"></script>
-    <script src="vendor/jqvmap/maps/continents/jquery.vmap.south-america.js"></script>
 
     <!-- Theme Base, Components and Settings -->
     <script src="js/theme.js"></script>
@@ -213,15 +225,14 @@
 
 
     <script>
-        function empDel(empID) {
+        function farmerDel(farmerID) {
             var params = {
-                empID: empID,
-                delEmp: ''
+                farmerID: farmerID,
+                delfarmer: ''
             };
             if (confirm("Confirm To Delete")) {
-                getrequest('queries/employee.php', params, 'view-employees.php');
+                getrequest('queries/farmer.php', params, 'view-farmer.php');
             }
-
         }
     </script>
 

@@ -102,13 +102,13 @@
                                                     </thead>
                                                     <tbody>
                                                         <?php
-                                                        $farmer = "SELECT * from farmers f, employees e where f.empID=e.empID";
+                                                        $farmer = "SELECT * from farmers f, employees e where f.empID=e.empID and e.empStatus=1";
                                                         $farmer = mysqli_query($conn, $farmer);
                                                         while ($farmer_row = mysqli_fetch_assoc($farmer)) {
                                                         ?>
                                                             <tr>
                                                                 <td><?php echo $farmer_row['farmerID']; ?></td>
-                                                                <td><?php echo $farmer_row['farmerName']; ?></td>
+                                                                <td><a href="details-farmers.php?farmerID=<?php echo $farmer_row['farmerID']; ?>"><?php echo $farmer_row['farmerName']; ?></a></td>
                                                                 <td><?php echo $farmer_row['farmerMobile']; ?></td>
                                                                 <td><?php echo $farmer_row['empName']; ?></td>
                                                                 <td><?php echo $farmer_row['farmerAddress']; ?></td>

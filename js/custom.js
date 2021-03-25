@@ -37,7 +37,7 @@ function getrequest(url,params,reload){
                 return data;
             }else{
                 alert(data);
-                window.location = reload;
+                window.location = window.location;
             }
         }, failure: function (data) {
             alert("ERROR OCCURED");

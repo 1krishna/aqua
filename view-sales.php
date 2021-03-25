@@ -103,7 +103,7 @@
                                                     </thead>
                                                     <tbody>
                                                         <?php
-                                                        $sales = "SELECT * from sales s, products p, farmers f, employees e where s.productID=p.productID and s.farmerID=f.farmerID and s.empID=e.empID";
+                                                        $sales = "SELECT * from sales s, products p, farmers f, employees e where s.productID=p.productID and s.farmerID=f.farmerID and s.empID=e.empID and empStatus=1";
                                                         $sales = mysqli_query($conn, $sales);
                                                         while ($sale = mysqli_fetch_assoc($sales)) {
                                                         ?>

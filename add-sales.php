@@ -69,6 +69,12 @@
             <section role="main" class="content-body">
                 <header class="page-header">
                     <h2>Sales</h2>
+                    <?php 
+                        $lastUpdated = "SELECT max(timestamp) as timestamp from sales";
+                        $lastUpdated = mysqli_query($conn,$lastUpdated);
+                        $lastUpdated = mysqli_fetch_assoc($lastUpdated);
+                        echo "<h2>Last Updated: {$lastUpdated['timestamp']}</h2>";                    
+                    ?>
                 </header>
                 <!-- start: page -->
                 <div class="row">
@@ -98,7 +104,7 @@
                                         <select data-plugin-selectTwo class="form-control populate" id="empID" name="empID" onchange="getFarmers();">
                                             <option value="select">Select</option>
                                             <?php
-                                            $employees = "SELECT * from employees";
+                                            $employees = "SELECT * from employees where empStatus=1";
                                             $employees = mysqli_query($conn, $employees);
                                             while ($emp_row = mysqli_fetch_assoc($employees)) {
                                             ?>

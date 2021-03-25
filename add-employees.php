@@ -93,14 +93,21 @@
 
                             <div class="card-body">
                                 <div class="form-group row">
-                                    <div class="col-lg-5">
+                                    <div class="col-lg-3">
+                                        <label class="control-label text-lg-right pt-2" for="inputDefault">Employee ID</label>
+                                        <input type="text" class="form-control" value="<?php if (isset($_POST['empID'])) {
+                                                                                            echo $empRow['empID'];
+                                                                                        } ?>" id="empID" required>
+                                        <div id="title_err" style="color:red"></div>
+                                    </div>
+                                    <div class="col-lg-3">
                                         <label class="control-label text-lg-right pt-2" for="inputDefault">Employee Name</label>
                                         <input type="text" class="form-control" value="<?php if (isset($_POST['empID'])) {
                                                                                             echo $empRow['empName'];
                                                                                         } ?>" id="empName" required>
                                         <div id="title_err" style="color:red"></div>
                                     </div>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-3">
                                         <label class="control-label text-lg-right pt-2" for="inputDefault">Mobile Number</label>
                                         <input type="text" class="form-control" value="<?php if (isset($_POST['empID'])) {
                                                                                             echo $empRow['empMobile'];
@@ -262,6 +269,7 @@
 
     <script>
         function addEmp() {
+            var empID = $('#empID').val();
             var empName = $('#empName').val();
             var empMobile = $('#empMobile').val();
             var empDOB = $('#empDOB').val();
@@ -273,6 +281,7 @@
             var empWorkZone = $('#empWorkZone').val();
 
             var params = {
+                empID: empID,
                 empName: empName,
                 empMobile: empMobile,
                 empDOB: empDOB,

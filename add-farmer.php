@@ -98,7 +98,7 @@
                                         <label class="control-label text-lg-right pt-2" for="inputDefault">Employee Name</label>
                                         <select data-plugin-selectTwo class="form-control populate" id="empID" name="empID">
                                             <?php
-                                            $employees = "SELECT * from employees";
+                                            $employees = "SELECT * from employees where empStatus=1";
                                             $employees = mysqli_query($conn, $employees);
                                             while ($emp_row = mysqli_fetch_assoc($employees)) {
                                             ?>

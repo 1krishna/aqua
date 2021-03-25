@@ -2,6 +2,7 @@
     include 'connect.php';
     if(isset($_SESSION['userID'])){
         if(isset($_POST['addEmp'])){
+            $empID= $_POST['empID'];
             $empName= $_POST['empName'];
             $empMobile= $_POST['empMobile'];
             $empDOB= $_POST['empDOB'];
@@ -12,7 +13,7 @@
             $empCAddress= $_POST['empCAddress'];
             $empWorkZone= $_POST['empWorkZone'];
 
-            $addEmp = "INSERT INTO `employees`(`empName`, `empMobile`, `empDOB`, `empAadhar`, `empPan`, `empEducation`, `empPAddress`, `empCAddress`, `empWorkZone`) VALUES ('$empName','$empMobile','$empDOB','$empAadhar','$empPan','$empEducation','$empPAddress','$empCAddress','$empWorkZone')";
+            $addEmp = "INSERT INTO `employees`(`empID`, `empName`, `empMobile`, `empDOB`, `empAadhar`, `empPan`, `empEducation`, `empPAddress`, `empCAddress`, `empWorkZone`) VALUES ('$empID','$empName','$empMobile','$empDOB','$empAadhar','$empPan','$empEducation','$empPAddress','$empCAddress','$empWorkZone')";
             $result = mysqli_query($conn, $addEmp);
             if($result){
                 echo "Employee Added Successfully";
@@ -47,6 +48,7 @@
             $empID = $_POST['empID'];
 
             $addEmp = "DELETE from employees where empID = '$empID'";
+            $addEmp = "UPDATE employees set empStatus=0 where empID = '$empID'";
             // echo $addEmp;
             $result = mysqli_query($conn, $addEmp);
             if($result){

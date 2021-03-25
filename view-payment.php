@@ -99,7 +99,7 @@
                                                     </thead>
                                                     <tbody>
                                                         <?php
-                                                        $payment = "SELECT * from payments p, employees e, farmers f where p.empID=e.empID and p.farmerID=f.farmerID";
+                                                        $payment = "SELECT * from payments p, employees e, farmers f where p.empID=e.empID and p.farmerID=f.farmerID and empStatus=1";
                                                         $payment = mysqli_query($conn, $payment);
                                                         while ($payment_row = mysqli_fetch_assoc($payment)) {
                                                         ?>
